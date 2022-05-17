@@ -8,11 +8,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".GameActivity"
+            android:name=".application.GameActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity
-            android:name=".StartActivity"
+            android:name=".application.StartActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>

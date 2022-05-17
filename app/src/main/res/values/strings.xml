@@ -6,7 +6,6 @@
     <string name="easy_mode_button">Easy</string>
     <string name="normal_mode_button">Normal</string>
     <string name="hard_mode_button">Hard</string>
-
     <string name="music_check_box">Music</string>
 
 </resources>

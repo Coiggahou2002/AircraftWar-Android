@@ -1,10 +1,9 @@
-package com.example.myapplication;
+package com.example.myapplication.application;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -15,10 +14,10 @@ public class GameView extends SurfaceView
 
     // game setting parameters
     public int difficulty = 0;
-    public boolean music_enable = false;
+    public boolean musicEnable = false;
 
     // game running parameters
-    public float finger_x = 0, finger_y = 0;
+    public float fingerX = 0, fingerY = 0;
     public int screenWidth = 400, screenHeight = 800;
 
     public GameView(Context context) {
@@ -26,9 +25,10 @@ public class GameView extends SurfaceView
 
         mySurfaceHolder = this.getHolder();
         mySurfaceHolder.addCallback(this);
-        this.setFocusable(true);
 
         myPaint = new Paint();
+
+        this.setFocusable(true);
     }
 
     // class process parameters
@@ -36,7 +36,6 @@ public class GameView extends SurfaceView
 
     private final SurfaceHolder mySurfaceHolder;
     private final Paint myPaint;
-    private Canvas canvas;
 
     @Override
     public void run() {
@@ -51,7 +50,7 @@ public class GameView extends SurfaceView
     }
 
     private void gamePeriod() {
-        canvas = mySurfaceHolder.lockCanvas();
+        Canvas canvas = mySurfaceHolder.lockCanvas();
 
         myPaint.setAntiAlias(true);
 
@@ -59,7 +58,7 @@ public class GameView extends SurfaceView
         canvas.drawRect(0, 0, screenWidth, screenHeight, myPaint);
 
         myPaint.setColor(Color.GREEN);
-        canvas.drawRect(finger_x, finger_y, finger_x + 10, finger_y + 10, myPaint);
+        canvas.drawRect(fingerX, fingerY, fingerX + 10, fingerY + 10, myPaint);
 
         mySurfaceHolder.unlockCanvasAndPost(canvas);
     }
