@@ -57,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         setContentView(R.layout.activity_main);
-        gameSurfaceView = new GameSurfaceView(this);
-        setContentView(gameSurfaceView);
+//        gameSurfaceView = new GameSurfaceView(this);
+//        setContentView(gameSurfaceView);
+
 
         /**
          * 下面部分代码是测试通信用的
