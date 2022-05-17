@@ -2,7 +2,8 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.myapplication.api.ApiResponse;
+import com.example.myapplication.api.ApiRepository;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,12 +17,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.myapplication.constant.NetworkConfig;
 import com.example.myapplication.databinding.ActivityMainBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.TextView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private GameSurfaceView gameSurfaceView;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,33 @@ public class MainActivity extends AppCompatActivity {
         gameSurfaceView = new GameSurfaceView(this);
         setContentView(gameSurfaceView);
 
+        /**
+         * 下面部分代码是测试通信用的
+         * 向服务器发送一个简单http请求
+         * 在textView上显示http响应内容
+         */
+        textView = findViewById(R.id.textview_first);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(NetworkConfig.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiRepository apiRepository = retrofit.create(ApiRepository.class);
+        Call<ApiResponse> call = apiRepository.testCommunication();
+
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                Log.d(TAG, response.toString());
+                textView.setText("success" + response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                textView.setText("failed" + t.getMessage());
+            }
+        });
     }
 
 //    @Override
