@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.example.myapplication.Config;
@@ -19,7 +20,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         currentIntent = getIntent();
-
         setViews();
     }
 
@@ -27,6 +27,7 @@ public class GameActivity extends AppCompatActivity {
         gameView = new GameView(this);
         gameView.difficulty = currentIntent.getIntExtra(Config.DIFFICULTY, 0);
         gameView.musicEnable = currentIntent.getBooleanExtra(Config.MUSIC_ENABLE, false);
+        Log.i(Config.GAME_ACTIVITY_INFO_TAG, gameView.difficulty + " ");
         setContentView(gameView);
     }
 

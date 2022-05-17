@@ -1,13 +1,17 @@
 package com.example.myapplication.application;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+
+import com.example.myapplication.game.EasyGame;
+import com.example.myapplication.game.Game;
+import com.example.myapplication.game.HardGame;
+import com.example.myapplication.game.NormalGame;
 
 public class GameView extends SurfaceView
     implements SurfaceHolder.Callback, Runnable {
@@ -20,22 +24,23 @@ public class GameView extends SurfaceView
     public float fingerX = 0, fingerY = 0;
     public int screenWidth = 400, screenHeight = 800;
 
+    // class process parameters
+    private boolean gameValid = true;
+    private Game game;
+
+    public final Resources myResources;
+    private final SurfaceHolder mySurfaceHolder;
+
     public GameView(Context context) {
         super(context);
+
+        myResources = context.getResources();
 
         mySurfaceHolder = this.getHolder();
         mySurfaceHolder.addCallback(this);
 
-        myPaint = new Paint();
-
         this.setFocusable(true);
     }
-
-    // class process parameters
-    private boolean gameValid = true;
-
-    private final SurfaceHolder mySurfaceHolder;
-    private final Paint myPaint;
 
     @Override
     public void run() {
@@ -50,22 +55,31 @@ public class GameView extends SurfaceView
     }
 
     private void gamePeriod() {
+        game.step();
+
         Canvas canvas = mySurfaceHolder.lockCanvas();
-
-        myPaint.setAntiAlias(true);
-
-        myPaint.setColor(Color.BLACK);
-        canvas.drawRect(0, 0, screenWidth, screenHeight, myPaint);
-
-        myPaint.setColor(Color.GREEN);
-        canvas.drawRect(fingerX, fingerY, fingerX + 10, fingerY + 10, myPaint);
-
+        game.repaint(canvas);
         mySurfaceHolder.unlockCanvasAndPost(canvas);
     }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+        getGame();
         new Thread(this).start();
+    }
+
+    private void getGame() {
+        switch (difficulty) {
+            case 0:
+                game = new EasyGame(this);
+                break;
+            case 1:
+                game = new NormalGame(this);
+                break;
+            case 2:
+                game = new HardGame(this);
+                break;
+        }
     }
 
     @Override
