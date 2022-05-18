@@ -1,5 +1,6 @@
 package com.example.myapplication.objects.bullet;
 
+import com.example.myapplication.objects.props.BombProps;
 import com.example.myapplication.objects.props.BombTarget;
 
 /**
@@ -9,7 +10,7 @@ public class EnemyBullet extends BaseBullet implements BombTarget {
 
     public EnemyBullet(int locationX, int locationY, int speedX, int speedY, int power) {
         super(locationX, locationY, speedX, speedY, power);
-//        BombProps.addTarget(this);
+        BombProps.addTarget(this);
     }
 
     @Override

@@ -16,6 +16,11 @@ import com.example.myapplication.objects.aircraft.factory.EliteEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.IEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.MobEnemyFactory;
 import com.example.myapplication.objects.bullet.BaseBullet;
+import com.example.myapplication.objects.props.BaseProps;
+import com.example.myapplication.objects.props.factory.BombPropsFactory;
+import com.example.myapplication.objects.props.factory.FirepowerPropsFactory;
+import com.example.myapplication.objects.props.factory.HealPropsFactory;
+import com.example.myapplication.objects.props.factory.IPropsFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +44,7 @@ public abstract class AbstractGame implements Game {
     private final List<AbstractEnemyAircraft> enemyAircrafts = new LinkedList<>();
     private final List<BaseBullet> heroBullets = new LinkedList<>();
     private final List<BaseBullet> enemyBullets = new LinkedList<>();
-//    private final List<BaseProps> props = new LinkedList<>();
+    private final List<BaseProps> props = new LinkedList<>();
 
     /**
      * 游戏基本参数
@@ -98,9 +103,9 @@ public abstract class AbstractGame implements Game {
     private final IEnemyFactory mobEnemyFactory = new MobEnemyFactory();
     private final IEnemyFactory eliteEnemyFactory = new EliteEnemyFactory();
     private final IEnemyFactory bossEnemyFactory = new BossEnemyFactory();
-//    private final IPropsFactory healPropsFactory;
-//    private final IPropsFactory bombPropsFactory;
-//    private final IPropsFactory firepowerPropsFactory;
+    private final IPropsFactory healPropsFactory = new HealPropsFactory();
+    private final IPropsFactory bombPropsFactory = new BombPropsFactory();
+    private final IPropsFactory firepowerPropsFactory = new FirepowerPropsFactory();
 
     public final GameView view;
     private final PaintHandler myPaintHandler;
@@ -221,9 +226,9 @@ public abstract class AbstractGame implements Game {
         for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
             enemyAircraft.forward();
         }
-//        for (BaseProps prop : props) {
-//            prop.forward();
-//        }
+        for (BaseProps prop : props) {
+            prop.forward();
+        }
     }
 
     /**
@@ -252,12 +257,12 @@ public abstract class AbstractGame implements Game {
                     // 获得分数，产生道具补给
                     score += enemyScore;
                     if (enemyAircraft instanceof EliteEnemy) {
-//                        propsGenerateAction(enemyAircraft);
+                        propsGenerateAction(enemyAircraft);
                     }
                     // Boss阶段结束判定
                     if (enemyAircraft instanceof BossEnemy) {
 //                        MusicManager.playNormalBgm();
-//                        propsGenerateAction(enemyAircraft);
+                        propsGenerateAction(enemyAircraft);
                         onBossStage = false;
                     }
                 }
@@ -272,35 +277,35 @@ public abstract class AbstractGame implements Game {
             }
         }
 
-//         // 我方获得道具，道具生效
-//        for(BaseProps prop : props) {
-//            if(prop.notValid()) {
-//                continue;
-//            }
-//            if(heroAircraft.crash(prop)) {
-//                prop.activate(this);
-//            }
-//        }
+         // 我方获得道具，道具生效
+        for(BaseProps prop : props) {
+            if(prop.notValid()) {
+                continue;
+            }
+            if(heroAircraft.crash(prop)) {
+                prop.activate(this);
+            }
+        }
     }
 
-//    private void propsGenerateAction(AbstractEnemyAircraft enemyAircraft) {
-//        switch (Utils.getByRandom(propsProbabilities)) {
-//            case 0:
-//                props.add(healPropsFactory.createProps(enemyAircraft));
-//                break;
-//            case 1:
-//                props.add(bombPropsFactory.createProps(enemyAircraft));
-//                break;
-//            case 2:
-//                props.add(firepowerPropsFactory.createProps(enemyAircraft));
-//                break;
-//            case 3:
-//                System.out.println("没有道具产生");
-//                break;
-//            default:
-//                System.out.println("Props Generator Error!");
-//        }
-//    }
+    private void propsGenerateAction(AbstractEnemyAircraft enemyAircraft) {
+        switch (Utils.getByRandom(propsProbabilities)) {
+            case 0:
+                props.add(healPropsFactory.createProps(enemyAircraft));
+                break;
+            case 1:
+                props.add(bombPropsFactory.createProps(enemyAircraft));
+                break;
+            case 2:
+                props.add(firepowerPropsFactory.createProps(enemyAircraft));
+                break;
+            case 3:
+                Log.v(Config.GAME_VERBOSE_TAG, "No Props Generated");
+                break;
+            default:
+                Log.e(Config.GAME_ERROR_TAG, "Props Generator Error!");
+        }
+    }
 
     /**
      * 后处理：
@@ -314,7 +319,7 @@ public abstract class AbstractGame implements Game {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
         enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
-//        props.removeIf(AbstractFlyingObject::notValid);
+        props.removeIf(AbstractFlyingObject::notValid);
     }
 
     /**
@@ -339,6 +344,7 @@ public abstract class AbstractGame implements Game {
         paintObjectLists(canvas, enemyBullets);
         paintObjectLists(canvas, heroBullets);
         paintObjectLists(canvas, enemyAircrafts);
+        paintObjectLists(canvas, props);
 
         myPaintHandler.drawAtCenter(canvas, heroAircraft.getImage(), (int)view.fingerX, (int)view.fingerY);
         myPaintHandler.drawGameTexts(canvas, score, heroAircraft.getHp());

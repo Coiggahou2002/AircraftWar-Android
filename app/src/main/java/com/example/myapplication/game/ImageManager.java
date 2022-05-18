@@ -11,6 +11,9 @@ import com.example.myapplication.objects.aircraft.HeroAircraft;
 import com.example.myapplication.objects.aircraft.MobEnemy;
 import com.example.myapplication.objects.bullet.EnemyBullet;
 import com.example.myapplication.objects.bullet.HeroBullet;
+import com.example.myapplication.objects.props.BombProps;
+import com.example.myapplication.objects.props.FirepowerProps;
+import com.example.myapplication.objects.props.HealProps;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,9 +66,9 @@ public class ImageManager {
         CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
         CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
         CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), BOSS_ENEMY_IMAGE);
-//        CLASSNAME_IMAGE_MAP.put(HealProps.class.getName(), HEAL_PROPS_IMAGE);
-//        CLASSNAME_IMAGE_MAP.put(BombProps.class.getName(), BOMB_PROPS_IMAGE);
-//        CLASSNAME_IMAGE_MAP.put(FirepowerProps.class.getName(), FIREPOWER_PROPS_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(HealProps.class.getName(), HEAL_PROPS_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(BombProps.class.getName(), BOMB_PROPS_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(FirepowerProps.class.getName(), FIREPOWER_PROPS_IMAGE);
 
         if(game.view.difficulty == 0) {
             BACKGROUND_IMAGE = BACKGROUND_IMAGE_EASY;
