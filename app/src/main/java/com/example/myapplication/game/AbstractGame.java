@@ -26,11 +26,6 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractGame implements Game {
 
     /**
-     * Scheduled 线程池，用于任务调度
-     */
-    private final ScheduledExecutorService executorService;
-
-    /**
      * 时间间隔(ms)，控制刷新频率
      */
     private final int timeInterval = 40;
@@ -106,7 +101,6 @@ public abstract class AbstractGame implements Game {
 //    private final IPropsFactory firepowerPropsFactory;
 
     public final GameView view;
-
     private final PaintHandler myPaintHandler;
 
     public AbstractGame(GameView client) {
@@ -120,42 +114,26 @@ public abstract class AbstractGame implements Game {
 
         // game component
         heroAircraft = HeroAircraft.getInstance();
-
-        executorService = new ScheduledThreadPoolExecutor(1, r -> {
-            Thread t = new Thread(r);
-            t.setName("game thread");
-            return t;
-        });
-
     }
 
     abstract protected void setParameters();
 
     @Override
-    public void start() {
-        Log.d(Config.GAME_DEBUG_TAG, "start");
+    public void step() {
+            time += timeInterval;
 
-        executorService.scheduleWithFixedDelay(() -> {
-            synchronized (view.mySurfaceHolder) {
-
-                time += timeInterval;
-
-                shootAction();
-                if (difficultyChange) {
-                    difficultyChangeAction();
-                }
-                enemyGenerateAction();
+            shootAction();
+            if (difficultyChange) {
+                difficultyChangeAction();
+            }
+            enemyGenerateAction();
 //            if (hasBoss) {
 //                bossSpawnAction();
 //            }
-                moveAction();
+            moveAction();
 //            crashCheckAction();
-                postProcessAction();
+            postProcessAction();
 //            gameOverCheck();
-
-            }
-        }, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
-
     }
 
 

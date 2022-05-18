@@ -3,18 +3,20 @@ package com.example.myapplication.application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import com.example.myapplication.Config;
 import com.example.myapplication.game.EasyGame;
 import com.example.myapplication.game.Game;
 import com.example.myapplication.game.HardGame;
 import com.example.myapplication.game.ImageManager;
 import com.example.myapplication.game.NormalGame;
+
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class GameView extends SurfaceView
     implements SurfaceHolder.Callback, Runnable {
@@ -28,11 +30,13 @@ public class GameView extends SurfaceView
     public int screenWidth = 400, screenHeight = 800;
 
     // class process parameters
-    private boolean gameValid = true;
     private Game game;
 
     public final Resources myResources;
     public final SurfaceHolder mySurfaceHolder;
+
+    private final int gameInterval = 16;
+    private final ScheduledExecutorService executorService;
 
     public GameView(Context context) {
         super(context);
@@ -43,26 +47,31 @@ public class GameView extends SurfaceView
         mySurfaceHolder.addCallback(this);
 
         this.setFocusable(true);
+
+        executorService = new ScheduledThreadPoolExecutor(1, r -> {
+            Thread t = new Thread(r);
+            t.setName("game view thread");
+            return t;
+        });
     }
 
     @Override
     public void run() {
-        game.start();
-
-        while(gameValid) {
-            synchronized (mySurfaceHolder) {
-                gamePeriod();
-            }
-            try {
-                Thread.sleep(10);
-            } catch (Exception ignored) {}
-        }
+        executorService.scheduleWithFixedDelay(
+                this::gamePeriod,
+                gameInterval,
+                gameInterval,
+                TimeUnit.MILLISECONDS
+        );
     }
 
     private void gamePeriod() {
-        Canvas canvas = mySurfaceHolder.lockCanvas();
-        game.repaint(canvas);
-        mySurfaceHolder.unlockCanvasAndPost(canvas);
+        game.step();
+        synchronized (mySurfaceHolder) {
+            Canvas canvas = mySurfaceHolder.lockCanvas();
+            game.repaint(canvas);
+            mySurfaceHolder.unlockCanvasAndPost(canvas);
+        }
     }
 
     @Override
@@ -96,6 +105,6 @@ public class GameView extends SurfaceView
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-        gameValid = false;
+        executorService.shutdown();
     }
 }
