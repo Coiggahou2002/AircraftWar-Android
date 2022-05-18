@@ -3,6 +3,7 @@ package com.example.myapplication.objects;
 import android.graphics.Bitmap;
 
 import com.example.myapplication.game.AbstractGame;
+import com.example.myapplication.game.ImageManager;
 import com.example.myapplication.objects.aircraft.AbstractAircraft;
 
 /**
@@ -50,24 +51,16 @@ public abstract class AbstractFlyingObject {
      */
     protected boolean isValid = true;
 
-    protected AbstractGame game;
-    public Bitmap texture;
+    public Bitmap image;
 
-    public AbstractFlyingObject(AbstractGame game) {
-        this.game = game;
-        texture = initTexture();
-    }
+    public AbstractFlyingObject() {}
 
-    public AbstractFlyingObject(
-            AbstractGame game, int locationX, int locationY, int speedX, int speedY) {
-        this(game);
+    public AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY) {
         this.locationX = locationX;
         this.locationY = locationY;
         this.speedX = speedX;
         this.speedY = speedY;
     }
-
-    abstract protected Bitmap initTexture();
 
     /**
      * 可飞行对象根据速度移动
@@ -76,7 +69,7 @@ public abstract class AbstractFlyingObject {
     public void forward() {
         locationX += speedX;
         locationY += speedY;
-        if (locationX <= 0 || locationX >= game.view.screenWidth) {
+        if (locationX <= 0 || locationX >= ImageManager.screenWidth) {
             // 横向超出边界后反向
             speedX = -speedX;
         }
@@ -130,10 +123,17 @@ public abstract class AbstractFlyingObject {
         return speedY;
     }
 
+    public Bitmap getImage() {
+        if (image == null){
+            image = ImageManager.get(this);
+        }
+        return image;
+    }
+
     public int getWidth() {
         if (width == -1){
             // 若未设置，则查询图片宽度并设置
-            width = texture.getWidth();
+            width = ImageManager.get(this).getWidth();
         }
         return width;
     }
@@ -141,10 +141,11 @@ public abstract class AbstractFlyingObject {
     public int getHeight() {
         if (height == -1){
             // 若未设置，则查询图片高度并设置
-            height = texture.getHeight();
+            height = ImageManager.get(this).getHeight();
         }
         return height;
     }
+
     public boolean notValid() {
         return !this.isValid;
     }

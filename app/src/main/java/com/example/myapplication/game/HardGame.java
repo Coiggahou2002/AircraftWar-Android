@@ -12,14 +12,6 @@ public class HardGame extends AbstractGame{
     }
 
     @Override
-    protected Bitmap initBackground() {
-        return BitmapFactory.decodeResource(
-                view.myResources,
-                R.drawable.background_hard
-        );
-    }
-
-    @Override
     protected void setParameters() {
 
     }

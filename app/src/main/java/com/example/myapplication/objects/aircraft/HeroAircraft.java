@@ -6,29 +6,28 @@ import android.util.Log;
 
 import com.example.myapplication.R;
 import com.example.myapplication.game.AbstractGame;
+import com.example.myapplication.game.ImageManager;
 
 /**
  * 英雄飞机，游戏玩家操控
  * @author hitsz
  */
-public class HeroAircraft extends AbstractAircraft{
+public class HeroAircraft extends AbstractAircraft {
 
     private volatile static HeroAircraft heroAircraft;
 
-    public static HeroAircraft getInstance(AbstractGame game) {
+    public static HeroAircraft getInstance() {
         if(heroAircraft == null) {
             synchronized (HeroAircraft.class) {
                 if(heroAircraft == null) {
-                    heroAircraft = new HeroAircraft(game);
+                    heroAircraft = new HeroAircraft();
                 }
             }
         }
         return heroAircraft;
     }
 
-    private HeroAircraft(AbstractGame game) {
-        super(game);
-        Log.i("test", "test");
+    private HeroAircraft() {
 //        setStraightShootStrategy();
         reborn();
     }
@@ -55,18 +54,9 @@ public class HeroAircraft extends AbstractAircraft{
      */
     public void reborn() {
         setProperty(
-                game.view.screenWidth / 2,
-                game.view.screenHeight - getHeight() ,
+                ImageManager.screenWidth / 2,
+                ImageManager.screenHeight - ImageManager.HERO_IMAGE.getHeight() ,
                 0, 0, 500
-        );
-    }
-
-    @Override
-    protected Bitmap initTexture() {
-        Log.i("test", game.view.toString());
-        return BitmapFactory.decodeResource(
-                game.view.myResources,
-                R.drawable.hero
         );
     }
 

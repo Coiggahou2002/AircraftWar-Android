@@ -12,14 +12,6 @@ public class EasyGame extends AbstractGame{
     }
 
     @Override
-    protected Bitmap initBackground() {
-        return BitmapFactory.decodeResource(
-                view.myResources,
-                R.drawable.background_easy
-        );
-    }
-
-    @Override
     protected void setParameters() {
     }
 }

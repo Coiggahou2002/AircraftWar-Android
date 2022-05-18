@@ -4,12 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
-public class ImageHandler {
+public class PaintHandler {
     private final Paint myPaint;
 
-    public ImageHandler() {
+    public PaintHandler() {
         myPaint = new Paint();
     }
 

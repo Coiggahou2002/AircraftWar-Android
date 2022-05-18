@@ -38,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
             gameView.fingerX = event.getX();
             gameView.fingerY = event.getY();
         }
-        Log.i(Config.GAME_ACTIVITY_INFO_TAG, gameView.fingerX + " " + gameView.fingerY);
+        Log.v(Config.GAME_ACTIVITY_INFO_TAG, gameView.fingerX + " " + gameView.fingerY);
         return true;
     }
 }

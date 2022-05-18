@@ -12,14 +12,6 @@ public class NormalGame extends AbstractGame{
     }
 
     @Override
-    protected Bitmap initBackground() {
-        return BitmapFactory.decodeResource(
-                view.myResources,
-                R.drawable.background_normal
-        );
-    }
-
-    @Override
     protected void setParameters() {
 
     }
