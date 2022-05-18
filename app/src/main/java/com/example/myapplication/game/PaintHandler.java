@@ -30,10 +30,10 @@ public class PaintHandler {
         }
     }
 
-    public void drawAt(Canvas canvas, Bitmap bitmap, int x, int y) {
+    public void drawAtCenter(Canvas canvas, Bitmap bitmap, int x, int y) {
         Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        Rect des = new Rect(x - bitmap.getWidth() / 2, y,
-                x + bitmap.getWidth() / 2, y + bitmap.getHeight());
+        Rect des = new Rect(x - bitmap.getWidth() / 2, y - bitmap.getHeight() / 2,
+                x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2);
         canvas.drawBitmap(bitmap, src, des, myPaint);
     }
 

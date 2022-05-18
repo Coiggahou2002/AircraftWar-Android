@@ -3,8 +3,8 @@ package com.example.myapplication.game;
 import android.graphics.Canvas;
 
 public interface Game {
-    /** Run a game logical step */
-    void step();
+    /** Run game logical cycle */
+    void start();
 
     /**
      * Paint current game status on canvas

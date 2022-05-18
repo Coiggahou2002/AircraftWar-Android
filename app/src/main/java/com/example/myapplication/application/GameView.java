@@ -3,14 +3,17 @@ package com.example.myapplication.application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.Config;
 import com.example.myapplication.game.EasyGame;
 import com.example.myapplication.game.Game;
 import com.example.myapplication.game.HardGame;
+import com.example.myapplication.game.ImageManager;
 import com.example.myapplication.game.NormalGame;
 
 public class GameView extends SurfaceView
@@ -44,6 +47,8 @@ public class GameView extends SurfaceView
 
     @Override
     public void run() {
+        game.start();
+
         while(gameValid) {
             synchronized (mySurfaceHolder) {
                 gamePeriod();
@@ -55,8 +60,6 @@ public class GameView extends SurfaceView
     }
 
     private void gamePeriod() {
-        game.step();
-
         Canvas canvas = mySurfaceHolder.lockCanvas();
         game.repaint(canvas);
         mySurfaceHolder.unlockCanvasAndPost(canvas);
@@ -86,6 +89,9 @@ public class GameView extends SurfaceView
     public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
         screenWidth = i1;
         screenHeight = i2;
+        // update ImageManager simultaneously
+        ImageManager.screenWidth = screenWidth;
+        ImageManager.screenHeight = screenHeight;
     }
 
     @Override
