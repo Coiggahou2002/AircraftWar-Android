@@ -13,6 +13,7 @@ import com.example.myapplication.objects.aircraft.factory.BossEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.EliteEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.IEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.MobEnemyFactory;
+import com.example.myapplication.objects.bullet.BaseBullet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,8 +40,8 @@ public abstract class AbstractGame implements Game {
      */
     private final HeroAircraft heroAircraft;
     private final List<AbstractEnemyAircraft> enemyAircrafts = new LinkedList<>();
-//    private final List<BaseBullet> heroBullets = new LinkedList<>();
-//    private final List<BaseBullet> enemyBullets = new LinkedList<>();
+    private final List<BaseBullet> heroBullets = new LinkedList<>();
+    private final List<BaseBullet> enemyBullets = new LinkedList<>();
 //    private final List<BaseProps> props = new LinkedList<>();
 
     /**
@@ -135,39 +136,42 @@ public abstract class AbstractGame implements Game {
         Log.d(Config.GAME_DEBUG_TAG, "start");
 
         executorService.scheduleWithFixedDelay(() -> {
+            synchronized (view.mySurfaceHolder) {
 
-            time += timeInterval;
+                time += timeInterval;
 
-//        shootAction();
-            if (difficultyChange) {
-                difficultyChangeAction();
+                shootAction();
+                if (difficultyChange) {
+                    difficultyChangeAction();
+                }
+                enemyGenerateAction();
+//            if (hasBoss) {
+//                bossSpawnAction();
+//            }
+                moveAction();
+//            crashCheckAction();
+                postProcessAction();
+//            gameOverCheck();
+
             }
-            enemyGenerateAction();
-//        if (hasBoss) {
-//            bossSpawnAction();
-//        }
-//        moveAction();
-//        crashCheckAction();
-//        postProcessAction();
-//        gameOverCheck();
-
         }, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 
     }
 
 
-//    private void shootAction() {
-//        shootCycleTime += timeInterval;
-//        if(shootCycleTime >= shootDuration) {
-//            shootCycleTime -= shootDuration;
-//            // 敌机射击
-//            for(AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
-//                enemyBullets.addAll(enemyAircraft.shoot());
-//            }
-//            // 英雄射击
-//            heroBullets.addAll(heroAircraft.shoot());
-//        }
-//    }
+    private void shootAction() {
+        shootCycleTime += timeInterval;
+        if(shootCycleTime >= shootDuration) {
+            shootCycleTime -= shootDuration;
+            // 敌机射击
+            for(AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
+                enemyBullets.addAll(enemyAircraft.shoot());
+            }
+            // 英雄射击
+            heroAircraft.setLocation((int)view.fingerX, (int)view.fingerY);
+            heroBullets.addAll(heroAircraft.shoot());
+        }
+    }
 
     private void enemyGenerateAction() {
         spawnCycleTime += timeInterval;
@@ -226,20 +230,20 @@ public abstract class AbstractGame implements Game {
 //        }
 //    }
 
-//    private void moveAction() {
-//        for (BaseBullet bullet : heroBullets) {
-//            bullet.forward();
-//        }
-//        for (BaseBullet bullet : enemyBullets) {
-//            bullet.forward();
-//        }
-//        for (AbstractAircraft enemyAircraft : enemyAircrafts) {
-//            enemyAircraft.forward();
-//        }
+    private void moveAction() {
+        for (BaseBullet bullet : heroBullets) {
+            bullet.forward();
+        }
+        for (BaseBullet bullet : enemyBullets) {
+            bullet.forward();
+        }
+        for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
+            enemyAircraft.forward();
+        }
 //        for (BaseProps prop : props) {
 //            prop.forward();
 //        }
-//    }
+    }
 
 //    /**
 //     * 碰撞检测：
@@ -325,12 +329,12 @@ public abstract class AbstractGame implements Game {
 //     * <p>
 //     * 无效的原因可能是撞击或者飞出边界
 //     */
-//    private void postProcessAction() {
-//        enemyBullets.removeIf(AbstractFlyingObject::notValid);
-//        heroBullets.removeIf(AbstractFlyingObject::notValid);
-//        enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
+    private void postProcessAction() {
+        enemyBullets.removeIf(AbstractFlyingObject::notValid);
+        heroBullets.removeIf(AbstractFlyingObject::notValid);
+        enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
 //        props.removeIf(AbstractFlyingObject::notValid);
-//    }
+    }
 
 //    /**
 //     * 游戏结束检查，若结束：
@@ -356,7 +360,11 @@ public abstract class AbstractGame implements Game {
     @Override
     public void repaint(Canvas canvas) {
         myPaintHandler.drawBackground(canvas, ImageManager.BACKGROUND_IMAGE, view.screenWidth, view.screenHeight);
+
+        paintObjectLists(canvas, enemyBullets);
+        paintObjectLists(canvas, heroBullets);
         paintObjectLists(canvas, enemyAircrafts);
+
         myPaintHandler.drawAtCenter(canvas, heroAircraft.getImage(), (int)view.fingerX, (int)view.fingerY);
     }
 

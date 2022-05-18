@@ -2,6 +2,11 @@ package com.example.myapplication.objects.aircraft;
 
 import com.example.myapplication.game.AbstractGame;
 import com.example.myapplication.objects.AbstractFlyingObject;
+import com.example.myapplication.objects.bullet.BaseBullet;
+import com.example.myapplication.objects.shoot.EmptyShoot;
+import com.example.myapplication.objects.shoot.ShootHandler;
+
+import java.util.List;
 
 /**
  * 所有种类飞机的抽象父类：
@@ -43,17 +48,17 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         return hp;
     }
 
-//    /**
-//     *  攻击方式 默认为空射
-//     */
-//    protected final ShootHandler shootHandler = new ShootHandler(new EmptyShoot());
-//
-//    /**
-//     * 飞机射击方法
-//     */
-//    public List<BaseBullet> shoot() {
-//        return shootHandler.shoot(this);
-//    }
+    /**
+     *  攻击方式 默认为空射
+     */
+    protected final ShootHandler shootHandler = new ShootHandler(new EmptyShoot());
+
+    /**
+     * 飞机射击方法
+     */
+    public List<BaseBullet> shoot() {
+        return shootHandler.shoot(this);
+    }
 
 }
 

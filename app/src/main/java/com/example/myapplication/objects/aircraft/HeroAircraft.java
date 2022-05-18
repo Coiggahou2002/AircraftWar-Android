@@ -7,6 +7,9 @@ import android.util.Log;
 import com.example.myapplication.R;
 import com.example.myapplication.game.AbstractGame;
 import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.objects.shoot.HeroScatteringShoot;
+import com.example.myapplication.objects.shoot.HeroStraightShoot;
+import com.example.myapplication.objects.shoot.IShootStrategy;
 
 /**
  * 英雄飞机，游戏玩家操控
@@ -28,7 +31,7 @@ public class HeroAircraft extends AbstractAircraft {
     }
 
     private HeroAircraft() {
-//        setStraightShootStrategy();
+        setStraightShootStrategy();
         reborn();
     }
 
@@ -66,15 +69,15 @@ public class HeroAircraft extends AbstractAircraft {
     @Override
     public void forward() {}
 
-//    /** 攻击方式 */
-//    private final IShootStrategy straightShootStrategy = new HeroStraightShoot();
-//    private final IShootStrategy scatteringShootStrategy = new HeroScatteringShoot();
-//
-//    public void setStraightShootStrategy() {
-//        shootHandler.setShootStrategy(straightShootStrategy);
-//    }
-//
-//    public void setScatteringShootStrategy() {
-//        shootHandler.setShootStrategy(scatteringShootStrategy);
-//    }
+    /** 攻击方式 */
+    private final IShootStrategy straightShootStrategy = new HeroStraightShoot();
+    private final IShootStrategy scatteringShootStrategy = new HeroScatteringShoot();
+
+    public void setStraightShootStrategy() {
+        shootHandler.setShootStrategy(straightShootStrategy);
+    }
+
+    public void setScatteringShootStrategy() {
+        shootHandler.setShootStrategy(scatteringShootStrategy);
+    }
 }

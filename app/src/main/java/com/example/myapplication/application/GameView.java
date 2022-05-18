@@ -32,7 +32,7 @@ public class GameView extends SurfaceView
     private Game game;
 
     public final Resources myResources;
-    private final SurfaceHolder mySurfaceHolder;
+    public final SurfaceHolder mySurfaceHolder;
 
     public GameView(Context context) {
         super(context);

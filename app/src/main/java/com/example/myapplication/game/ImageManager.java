@@ -9,6 +9,8 @@ import com.example.myapplication.objects.aircraft.BossEnemy;
 import com.example.myapplication.objects.aircraft.EliteEnemy;
 import com.example.myapplication.objects.aircraft.HeroAircraft;
 import com.example.myapplication.objects.aircraft.MobEnemy;
+import com.example.myapplication.objects.bullet.EnemyBullet;
+import com.example.myapplication.objects.bullet.HeroBullet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,8 +58,8 @@ public class ImageManager {
         FIREPOWER_PROPS_IMAGE = BitmapFactory.decodeResource(r, R.drawable.prop_bullet);
 
         CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
-//        CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), HERO_BULLET_IMAGE);
-//        CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(HeroBullet.class.getName(), HERO_BULLET_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(EnemyBullet.class.getName(), ENEMY_BULLET_IMAGE);
         CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
         CLASSNAME_IMAGE_MAP.put(EliteEnemy.class.getName(), ELITE_ENEMY_IMAGE);
         CLASSNAME_IMAGE_MAP.put(BossEnemy.class.getName(), BOSS_ENEMY_IMAGE);
