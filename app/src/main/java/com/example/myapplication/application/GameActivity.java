@@ -27,7 +27,7 @@ public class GameActivity extends AppCompatActivity {
         gameView = new GameView(this);
         gameView.difficulty = currentIntent.getIntExtra(Config.DIFFICULTY, 0);
         gameView.musicEnable = currentIntent.getBooleanExtra(Config.MUSIC_ENABLE, false);
-        Log.i(Config.GAME_ACTIVITY_INFO_TAG, gameView.difficulty + " ");
+        Log.i(Config.GAME_ACTIVITY_INFO_TAG, "" + gameView.difficulty);
         setContentView(gameView);
     }
 

@@ -8,6 +8,8 @@ import com.example.myapplication.Utils;
 import com.example.myapplication.application.GameView;
 import com.example.myapplication.objects.AbstractFlyingObject;
 import com.example.myapplication.objects.aircraft.AbstractEnemyAircraft;
+import com.example.myapplication.objects.aircraft.BossEnemy;
+import com.example.myapplication.objects.aircraft.EliteEnemy;
 import com.example.myapplication.objects.aircraft.HeroAircraft;
 import com.example.myapplication.objects.aircraft.factory.BossEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.EliteEnemyFactory;
@@ -114,6 +116,7 @@ public abstract class AbstractGame implements Game {
 
         // game component
         heroAircraft = HeroAircraft.getInstance();
+        heroAircraft.reborn();
     }
 
     abstract protected void setParameters();
@@ -131,9 +134,9 @@ public abstract class AbstractGame implements Game {
 //                bossSpawnAction();
 //            }
             moveAction();
-//            crashCheckAction();
+            crashCheckAction();
             postProcessAction();
-//            gameOverCheck();
+            gameOverCheck();
     }
 
 
@@ -223,53 +226,53 @@ public abstract class AbstractGame implements Game {
 //        }
     }
 
-//    /**
-//     * 碰撞检测：
-//     * 1. 敌机攻击英雄
-//     * 2. 英雄攻击/撞击敌机
-//     * 3. 英雄获得补给
-//     */
-//    private void crashCheckAction() {
-//        // 敌机子弹攻击英雄
-//        for(BaseBullet bullet : enemyBullets) {
-//            bullet.tryHit(heroAircraft);
-//        }
-//
-//        // 英雄子弹攻击敌机
-//        for (BaseBullet bullet : heroBullets) {
-//            if (bullet.notValid()) {
-//                continue;
-//            }
-//            for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
-//                if(enemyAircraft.notValid()) {
-//                    continue;
-//                }
-//                bullet.tryHit(enemyAircraft);
-//                if (enemyAircraft.notValid()) {
-//                    // 获得分数，产生道具补给
-//                    score += enemyScore;
-//                    if (enemyAircraft instanceof EliteEnemy) {
+    /**
+     * 碰撞检测：
+     * 1. 敌机攻击英雄
+     * 2. 英雄攻击/撞击敌机
+     * 3. 英雄获得补给
+     */
+    private void crashCheckAction() {
+        // 敌机子弹攻击英雄
+        for(BaseBullet bullet : enemyBullets) {
+            bullet.tryHit(heroAircraft);
+        }
+
+        // 英雄子弹攻击敌机
+        for (BaseBullet bullet : heroBullets) {
+            if (bullet.notValid()) {
+                continue;
+            }
+            for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
+                if(enemyAircraft.notValid()) {
+                    continue;
+                }
+                bullet.tryHit(enemyAircraft);
+                if (enemyAircraft.notValid()) {
+                    // 获得分数，产生道具补给
+                    score += enemyScore;
+                    if (enemyAircraft instanceof EliteEnemy) {
 //                        propsGenerateAction(enemyAircraft);
-//                    }
-//                    // Boss阶段结束判定
-//                    if (enemyAircraft instanceof BossEnemy) {
+                    }
+                    // Boss阶段结束判定
+                    if (enemyAircraft instanceof BossEnemy) {
 //                        MusicManager.playNormalBgm();
 //                        propsGenerateAction(enemyAircraft);
-//                        onBossStage = false;
-//                    }
-//                }
-//            }
-//        }
-//
-//        // 英雄机 与 敌机 相撞，均损毁
-//        for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
-//            if (enemyAircraft.crash(heroAircraft)) {
-//                enemyAircraft.vanish();
-//                heroAircraft.decreaseHp(Integer.MAX_VALUE);
-//            }
-//        }
-//
-//        // 我方获得道具，道具生效
+                        onBossStage = false;
+                    }
+                }
+            }
+        }
+
+        // 英雄机 与 敌机 相撞，均损毁
+        for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
+            if (enemyAircraft.crash(heroAircraft)) {
+                enemyAircraft.vanish();
+                heroAircraft.decreaseHp(Integer.MAX_VALUE);
+            }
+        }
+
+//         // 我方获得道具，道具生效
 //        for(BaseProps prop : props) {
 //            if(prop.notValid()) {
 //                continue;
@@ -278,7 +281,7 @@ public abstract class AbstractGame implements Game {
 //                prop.activate(this);
 //            }
 //        }
-//    }
+    }
 
 //    private void propsGenerateAction(AbstractEnemyAircraft enemyAircraft) {
 //        switch (Utils.getByRandom(propsProbabilities)) {
@@ -299,14 +302,14 @@ public abstract class AbstractGame implements Game {
 //        }
 //    }
 
-//    /**
-//     * 后处理：
-//     * 1. 删除无效的子弹
-//     * 2. 删除无效的敌机
-//     * 3. 检查英雄机生存
-//     * <p>
-//     * 无效的原因可能是撞击或者飞出边界
-//     */
+    /**
+     * 后处理：
+     * 1. 删除无效的子弹
+     * 2. 删除无效的敌机
+     * 3. 检查英雄机生存
+     * <p>
+     * 无效的原因可能是撞击或者飞出边界
+     */
     private void postProcessAction() {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
@@ -314,25 +317,19 @@ public abstract class AbstractGame implements Game {
 //        props.removeIf(AbstractFlyingObject::notValid);
     }
 
-//    /**
-//     * 游戏结束检查，若结束：
-//     * 1. 停止游戏
-//     * 2. 处理音效
-//     * 3. 通知Main线程
-//     */
-//    private void gameOverCheck() {
-//        if (heroAircraft.getHp() <= 0) {
-//            System.out.println("游戏结束!");
-//
-//            executorService.shutdown();
-//
+    /**
+     * 游戏结束检查，若结束：
+     * 1. 停止游戏
+     * 2. 处理音效
+     * 3. 通知Main线程
+     */
+    private void gameOverCheck() {
+        if (heroAircraft.getHp() <= 0) {
 //            MusicManager.stop();
 //            MusicManager.playMusic(MusicManager.MUSIC.GAME_OVER);
-//
-//            Main.score = score;
-//            Main.tryNotify();
-//        }
-//    }
+            view.onGameStop(score);
+        }
+    }
 
 
     @Override

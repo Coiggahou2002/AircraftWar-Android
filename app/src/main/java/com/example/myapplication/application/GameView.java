@@ -1,13 +1,16 @@
 package com.example.myapplication.application;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.Config;
 import com.example.myapplication.game.EasyGame;
 import com.example.myapplication.game.Game;
 import com.example.myapplication.game.HardGame;
@@ -31,6 +34,7 @@ public class GameView extends SurfaceView
 
     // class process parameters
     private Game game;
+    private Activity myActivity;
 
     public final Resources myResources;
     public final SurfaceHolder mySurfaceHolder;
@@ -41,6 +45,7 @@ public class GameView extends SurfaceView
     public GameView(Context context) {
         super(context);
 
+        myActivity = (Activity) context;
         myResources = context.getResources();
 
         mySurfaceHolder = this.getHolder();
@@ -72,6 +77,12 @@ public class GameView extends SurfaceView
             game.repaint(canvas);
             mySurfaceHolder.unlockCanvasAndPost(canvas);
         }
+    }
+
+    public void onGameStop(int score) {
+        Log.i(Config.GAME_ACTIVITY_INFO_TAG, "" + score);
+        executorService.shutdown();
+        myActivity.finish();
     }
 
     @Override
