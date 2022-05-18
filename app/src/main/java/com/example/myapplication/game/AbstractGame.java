@@ -344,12 +344,17 @@ public abstract class AbstractGame implements Game {
         paintObjectLists(canvas, enemyAircrafts);
 
         myPaintHandler.drawAtCenter(canvas, heroAircraft.getImage(), (int)view.fingerX, (int)view.fingerY);
+        myPaintHandler.drawGameTexts(canvas, score, heroAircraft.getHp());
     }
 
     private void paintObjectLists(Canvas canvas, List<? extends AbstractFlyingObject> objects) {
         for (AbstractFlyingObject object : objects) {
             myPaintHandler.drawAtCenter(canvas, object.getImage(), object.getLocationX(), object.getLocationY());
         }
+    }
+
+    public void addScore(int enemyCount) {
+        score += enemyScore * enemyCount;
     }
 
 }

@@ -98,6 +98,7 @@ public class GameView extends SurfaceView
     public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
         screenWidth = i1;
         screenHeight = i2;
+
         // update ImageManager simultaneously
         ImageManager.screenWidth = screenWidth;
         ImageManager.screenHeight = screenHeight;

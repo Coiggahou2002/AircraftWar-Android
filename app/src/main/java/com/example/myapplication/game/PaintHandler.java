@@ -2,6 +2,7 @@ package com.example.myapplication.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -10,6 +11,9 @@ public class PaintHandler {
 
     public PaintHandler() {
         myPaint = new Paint();
+        myPaint.setColor(Color.RED);
+        myPaint.setStrokeWidth(30);
+        myPaint.setTextSize(100);
     }
 
     private double backgroundPosition = 0;
@@ -35,6 +39,12 @@ public class PaintHandler {
         Rect des = new Rect(x - bitmap.getWidth() / 2, y - bitmap.getHeight() / 2,
                 x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2);
         canvas.drawBitmap(bitmap, src, des, myPaint);
+    }
+
+    public void drawGameTexts(Canvas canvas, int score, int hp) {
+        int x = 20, y1 = 120, y2 = 220;
+        canvas.drawText("SCORE: " + score, x, y1, myPaint);
+        canvas.drawText("LIFE: " + hp, x, y2, myPaint);
     }
 
 }
