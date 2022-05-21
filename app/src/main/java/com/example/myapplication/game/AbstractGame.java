@@ -135,9 +135,9 @@ public abstract class AbstractGame implements Game {
                 difficultyChangeAction();
             }
             enemyGenerateAction();
-//            if (hasBoss) {
-//                bossSpawnAction();
-//            }
+            if (hasBoss) {
+                bossSpawnAction();
+            }
             moveAction();
             crashCheckAction();
             postProcessAction();
@@ -200,21 +200,21 @@ public abstract class AbstractGame implements Game {
         }
     }
 
-//    private void bossSpawnAction() {
-//        // boss死亡后再获得100分时生成新boss
-//        if(onBossStage) {
-//            nextBossScore = score + bossScoreInterval;
-//        }
-//        else if(score >= nextBossScore) {
-//            enemyAircrafts.add(bossEnemyFactory.createEnemy(
-//                    bossBaseHp + bossIncreaseHp * deadBossCount
-//            ));
-//            System.out.println("Boss生成");
+    private void bossSpawnAction() {
+        // boss死亡后再获得100分时生成新boss
+        if(onBossStage) {
+            nextBossScore = score + bossScoreInterval;
+        }
+        else if(score >= nextBossScore) {
+            enemyAircrafts.add(bossEnemyFactory.createEnemy(
+                    bossBaseHp + bossIncreaseHp * deadBossCount
+            ));
+            System.out.println("Boss生成");
 //            MusicManager.playBossBgm();
-//            deadBossCount++;
-//            onBossStage = true;
-//        }
-//    }
+            deadBossCount++;
+            onBossStage = true;
+        }
+    }
 
     private void moveAction() {
         for (BaseBullet bullet : heroBullets) {
