@@ -1,9 +1,13 @@
 package com.example.myapplication.application;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,6 +20,7 @@ import com.example.myapplication.game.Game;
 import com.example.myapplication.game.HardGame;
 import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.game.NormalGame;
+import com.example.myapplication.game.multimedia.MusicService;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -33,8 +38,8 @@ public class GameView extends SurfaceView
     public int screenWidth = 400, screenHeight = 800;
 
     // class process parameters
-    private Game game;
-    private Activity myActivity;
+    public Game game;
+    public GameActivity myActivity;
 
     public final Resources myResources;
     public final SurfaceHolder mySurfaceHolder;
@@ -45,7 +50,7 @@ public class GameView extends SurfaceView
     public GameView(Context context) {
         super(context);
 
-        myActivity = (Activity) context;
+        myActivity = (GameActivity) context;
         myResources = context.getResources();
 
         mySurfaceHolder = this.getHolder();

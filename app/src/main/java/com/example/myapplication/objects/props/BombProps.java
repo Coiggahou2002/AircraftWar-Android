@@ -1,6 +1,7 @@
 package com.example.myapplication.objects.props;
 
 import com.example.myapplication.game.AbstractGame;
+import com.example.myapplication.game.multimedia.MusicService;
 import com.example.myapplication.objects.aircraft.AbstractEnemyAircraft;
 
 import java.util.LinkedList;
@@ -23,7 +24,6 @@ public class BombProps extends BaseProps {
 
     @Override
     public void activate(AbstractGame game) {
-//        MusicManager.playMusic(MusicManager.MUSIC.BOMB);
         this.vanish();
 
         int enemyCount = 0;

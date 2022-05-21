@@ -7,6 +7,7 @@ import com.example.myapplication.Config;
 import com.example.myapplication.Utils;
 import com.example.myapplication.application.GameView;
 import com.example.myapplication.game.multimedia.ImageManager;
+import com.example.myapplication.game.multimedia.MusicService;
 import com.example.myapplication.game.multimedia.PaintHandler;
 import com.example.myapplication.objects.AbstractFlyingObject;
 import com.example.myapplication.objects.aircraft.AbstractEnemyAircraft;
@@ -19,6 +20,7 @@ import com.example.myapplication.objects.aircraft.factory.IEnemyFactory;
 import com.example.myapplication.objects.aircraft.factory.MobEnemyFactory;
 import com.example.myapplication.objects.bullet.BaseBullet;
 import com.example.myapplication.objects.props.BaseProps;
+import com.example.myapplication.objects.props.BombProps;
 import com.example.myapplication.objects.props.factory.BombPropsFactory;
 import com.example.myapplication.objects.props.factory.FirepowerPropsFactory;
 import com.example.myapplication.objects.props.factory.HealPropsFactory;
@@ -209,7 +211,7 @@ public abstract class AbstractGame implements Game {
                     bossBaseHp + bossIncreaseHp * deadBossCount
             ));
             System.out.println("Boss生成");
-//            MusicManager.playBossBgm();
+            view.myActivity.myMusicBinder.playBossBgm();
             deadBossCount++;
             onBossStage = true;
         }
@@ -260,8 +262,8 @@ public abstract class AbstractGame implements Game {
                     }
                     // Boss阶段结束判定
                     if (enemyAircraft instanceof BossEnemy) {
-//                        MusicManager.playNormalBgm();
                         propsGenerateAction(enemyAircraft);
+                        view.myActivity.myMusicBinder.playNormalBgm();
                         onBossStage = false;
                     }
                 }
@@ -283,6 +285,12 @@ public abstract class AbstractGame implements Game {
             }
             if(heroAircraft.crash(prop)) {
                 prop.activate(this);
+                if(prop instanceof BombProps) {
+                    view.myActivity.myMusicBinder.play(MusicService.MusicName.BOMB);
+                }
+                else {
+                    view.myActivity.myMusicBinder.play(MusicService.MusicName.SUPPLY);
+                }
             }
         }
     }
@@ -329,12 +337,11 @@ public abstract class AbstractGame implements Game {
      */
     private void gameOverCheck() {
         if (heroAircraft.getHp() <= 0) {
-//            MusicManager.stop();
-//            MusicManager.playMusic(MusicManager.MUSIC.GAME_OVER);
+            view.myActivity.myMusicBinder.stopAll();
+            view.myActivity.myMusicBinder.play(MusicService.MusicName.GAME_OVER);
             view.onGameStop(score);
         }
     }
-
 
     @Override
     public void repaint(Canvas canvas) {

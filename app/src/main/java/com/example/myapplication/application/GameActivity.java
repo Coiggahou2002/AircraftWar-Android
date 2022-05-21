@@ -2,18 +2,26 @@ package com.example.myapplication.application;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.example.myapplication.Config;
+import com.example.myapplication.game.multimedia.MusicService;
 
 public class GameActivity extends AppCompatActivity {
 
     private Intent currentIntent;
     private GameView gameView;
+
+    public MusicService.MusicBinder myMusicBinder;
+    private MusicConnect myMusicConnect;
+    private Intent musicIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +29,10 @@ public class GameActivity extends AppCompatActivity {
 
         currentIntent = getIntent();
         setViews();
+
+        myMusicConnect = new MusicConnect();
+        musicIntent = new Intent(this, MusicService.class);
+        bindService(musicIntent, myMusicConnect, Context.BIND_AUTO_CREATE);
     }
 
     private void setViews() {
@@ -29,6 +41,17 @@ public class GameActivity extends AppCompatActivity {
         gameView.musicEnable = currentIntent.getBooleanExtra(Config.MUSIC_ENABLE, false);
         Log.i(Config.GAME_ACTIVITY_INFO_TAG, "" + gameView.difficulty);
         setContentView(gameView);
+    }
+
+    class MusicConnect implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i(Config.MUSIC_INFO_TAG, "Connect Music");
+            myMusicBinder = (MusicService.MusicBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {}
     }
 
     @Override
@@ -40,5 +63,11 @@ public class GameActivity extends AppCompatActivity {
         }
         Log.v(Config.GAME_ACTIVITY_INFO_TAG, gameView.fingerX + " " + gameView.fingerY);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(myMusicConnect);
     }
 }

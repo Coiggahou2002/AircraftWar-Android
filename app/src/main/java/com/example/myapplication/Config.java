@@ -13,5 +13,6 @@ public class Config {
     public final static String GAME_DEBUG_TAG = "GameDebug";
     public final static String GAME_INFO_TAG = "GameInfo";
     public final static String GAME_ERROR_TAG = "GameError";
+    public final static String MUSIC_INFO_TAG = "MusicInfo";
 
 }

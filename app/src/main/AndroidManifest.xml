@@ -7,6 +7,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
+        <service
+            android:name=".game.multimedia.MusicService"
+            android:enabled="true"
+            android:exported="false" />
         <activity
             android:name=".application.GameActivity"
             android:exported="false"
