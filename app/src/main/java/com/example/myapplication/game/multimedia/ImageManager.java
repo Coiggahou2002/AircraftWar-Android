@@ -1,10 +1,11 @@
-package com.example.myapplication.game;
+package com.example.myapplication.game.multimedia;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.myapplication.R;
+import com.example.myapplication.game.AbstractGame;
 import com.example.myapplication.objects.aircraft.BossEnemy;
 import com.example.myapplication.objects.aircraft.EliteEnemy;
 import com.example.myapplication.objects.aircraft.HeroAircraft;

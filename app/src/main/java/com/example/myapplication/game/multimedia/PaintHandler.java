@@ -1,4 +1,4 @@
-package com.example.myapplication.game;
+package com.example.myapplication.game.multimedia;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

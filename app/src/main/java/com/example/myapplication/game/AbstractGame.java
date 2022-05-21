@@ -6,6 +6,8 @@ import android.util.Log;
 import com.example.myapplication.Config;
 import com.example.myapplication.Utils;
 import com.example.myapplication.application.GameView;
+import com.example.myapplication.game.multimedia.ImageManager;
+import com.example.myapplication.game.multimedia.PaintHandler;
 import com.example.myapplication.objects.AbstractFlyingObject;
 import com.example.myapplication.objects.aircraft.AbstractEnemyAircraft;
 import com.example.myapplication.objects.aircraft.BossEnemy;
@@ -26,9 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractGame implements Game {
 

@@ -14,7 +14,7 @@ import com.example.myapplication.Config;
 import com.example.myapplication.game.EasyGame;
 import com.example.myapplication.game.Game;
 import com.example.myapplication.game.HardGame;
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.game.NormalGame;
 
 import java.util.concurrent.ScheduledExecutorService;

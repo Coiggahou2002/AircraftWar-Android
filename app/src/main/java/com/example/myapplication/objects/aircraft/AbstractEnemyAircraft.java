@@ -1,6 +1,6 @@
 package com.example.myapplication.objects.aircraft;
 
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 
 /**
  * 抽象敌机 这一层实现了forward方法和vanish判定

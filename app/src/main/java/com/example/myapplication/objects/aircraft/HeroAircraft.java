@@ -1,12 +1,6 @@
 package com.example.myapplication.objects.aircraft;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
-import com.example.myapplication.R;
-import com.example.myapplication.game.AbstractGame;
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.objects.shoot.HeroScatteringShoot;
 import com.example.myapplication.objects.shoot.HeroStraightShoot;
 import com.example.myapplication.objects.shoot.IShootStrategy;

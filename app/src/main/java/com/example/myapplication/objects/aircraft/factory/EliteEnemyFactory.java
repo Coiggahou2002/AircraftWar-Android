@@ -1,7 +1,7 @@
 package com.example.myapplication.objects.aircraft.factory;
 
 import com.example.myapplication.Utils;
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.objects.aircraft.AbstractEnemyAircraft;
 import com.example.myapplication.objects.aircraft.EliteEnemy;
 

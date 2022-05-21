@@ -2,8 +2,7 @@ package com.example.myapplication.objects;
 
 import android.graphics.Bitmap;
 
-import com.example.myapplication.game.AbstractGame;
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.objects.aircraft.AbstractAircraft;
 
 /**

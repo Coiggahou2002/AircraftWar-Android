@@ -1,6 +1,6 @@
 package com.example.myapplication.objects.bullet;
 
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.objects.AbstractFlyingObject;
 import com.example.myapplication.objects.aircraft.AbstractAircraft;
 

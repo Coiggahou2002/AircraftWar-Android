@@ -1,7 +1,7 @@
 package com.example.myapplication.objects.props;
 
 import com.example.myapplication.game.AbstractGame;
-import com.example.myapplication.game.ImageManager;
+import com.example.myapplication.game.multimedia.ImageManager;
 import com.example.myapplication.objects.AbstractFlyingObject;
 
 /**
