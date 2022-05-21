@@ -8,4 +8,15 @@
     <string name="hard_mode_button">Hard</string>
     <string name="music_check_box">Music</string>
 
+    <string name="difficulty_text">DIFFICULTY</string>
+    <string name="delete_button">Delete</string>
+    <string name="restart_button">Restart</string>
+    <string name="quit_button">Quit</string>
+
+    <string-array name="standing_table_head">
+        <item>Name</item>
+        <item>Score</item>
+        <item>Time</item>
+    </string-array>
+
 </resources>
