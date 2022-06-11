@@ -16,13 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.Config;
 import com.example.myapplication.R;
+import com.example.myapplication.network.LoginHandler;
+import com.example.myapplication.network.LoginHandlerNaiveImpl;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
     Intent startIntent;
+    LoginHandler networkHandler;
 
     TextView loginTitle;
     Button loginButton, registerButton;
@@ -32,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO: 请在完成LoginHandler实现后，将此处替换为实现类
+        networkHandler = new LoginHandlerNaiveImpl();
 
         startIntent = new Intent(LoginActivity.this, StartActivity.class);
 
@@ -61,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             return false;
         });
+
         passwordEditor.setOnEditorActionListener((v, actionId, event) -> {
             if (
                 event != null &&
@@ -73,13 +78,15 @@ public class LoginActivity extends AppCompatActivity {
             }
             return false;
         });
+
         loginButton.setOnClickListener(v -> {
-            if (getEditorContent()) {
+            if (getEditorContent() && tryLogin()) {
                 onQuit();
             }
         });
+
         registerButton.setOnClickListener(v -> {
-            if (getEditorContent()) {
+            if (getEditorContent() && tryRegister()) {
                 onQuit();
             }
         });
@@ -97,6 +104,26 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private boolean tryLogin() {
+        if (networkHandler.tryLogin(username.toString(), password.toString())) {
+            return true;
+        }
+        else {
+            loginTitle.setText(R.string.login_failed);
+            return false;
+        }
+    }
+
+    private boolean tryRegister() {
+        if (networkHandler.tryRegister(username.toString(), password.toString())) {
+            return true;
+        }
+        else {
+            loginTitle.setText(R.string.register_failed);
+            return false;
+        }
     }
 
     private void onQuit() {

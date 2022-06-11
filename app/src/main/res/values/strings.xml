@@ -5,6 +5,11 @@
     <!-- Strings for process modification-->
     <string name="empty_username">Please input username</string>
     <string name="empty_password">Please input password</string>
+    <string name="login_failed">Login Failed!</string>
+    <string name="register_failed">Register Failed!</string>
+
+
+
     <string name="easy_mode">Easy Mode</string>
     <string name="normal_mode">Normal Mode</string>
     <string name="hard_mode">Hard Mode</string>

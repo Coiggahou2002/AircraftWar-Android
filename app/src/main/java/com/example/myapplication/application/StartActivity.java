@@ -12,10 +12,16 @@ import android.widget.CheckBox;
 
 import com.example.myapplication.Config;
 import com.example.myapplication.R;
+import com.example.myapplication.network.GameHandler;
+import com.example.myapplication.network.GameHandlerNaiveImpl;
 
 public class StartActivity extends AppCompatActivity {
 
     Intent gameIntent;
+    GameHandler networkHandler;
+
+    String username;
+
     Button easyButton, normalButton, hardButton, onlineButton;
     CheckBox musicCheckBox;
 
@@ -23,8 +29,13 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // TODO: 请在完成MatchHandler实现后，将此处替换为实现类
+        networkHandler = new GameHandlerNaiveImpl();
+
+        username = getIntent().getStringExtra(Config.USERNAME);
+
         gameIntent = new Intent(StartActivity.this, GameActivity.class);
-        gameIntent.putExtra(Config.USERNAME, getIntent().getStringExtra(Config.USERNAME));
+        gameIntent.putExtra(Config.USERNAME, username);
 
         setViews();
         createListeners();
@@ -60,10 +71,21 @@ public class StartActivity extends AppCompatActivity {
 
         onlineButton.setOnClickListener(view -> {
             Log.i(Config.START_ACTIVITY_INFO_TAG, "Online Mode Selected");
+            tryMatch();
+        });
+    }
+
+    private void tryMatch() {
+        if (networkHandler.tryMatch(username)) {
             gameIntent.putExtra(Config.DIFFICULTY, 1);
             gameIntent.putExtra(Config.ONLINE, 1);
+            gameIntent.putExtra(Config.NETWORK_HANDLER, networkHandler);
             onQuit();
-        });
+        }
+        else {
+            // TODO: 此处回头加个GUI文本提示
+            Log.i(Config.START_ACTIVITY_INFO_TAG, "Online Mode Failed");
+        }
     }
 
     private void onQuit() {

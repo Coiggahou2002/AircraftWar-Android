@@ -60,6 +60,7 @@ public class StandingListAdapter extends BaseAdapter {
 
             holder.deleteButton.setOnClickListener(v -> {
                 data.remove(position - 1);
+                ((StandingActivity) context).deleteEntry(data.get(position - 1));
                 notifyDataSetChanged();
             });
 
@@ -87,9 +88,5 @@ public class StandingListAdapter extends BaseAdapter {
     public static final class ItemViewHolder {
         TextView nameText, scoreText, timeText;
         Button deleteButton;
-    }
-
-    public static final class HeadViewHolder {
-        TextView nameText, scoreText, timeText;
     }
 }

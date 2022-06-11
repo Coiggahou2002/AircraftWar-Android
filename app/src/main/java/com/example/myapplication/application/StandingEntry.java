@@ -5,7 +5,7 @@ public final class StandingEntry {
     public String score;
     public String time;
 
-    StandingEntry(String name, String score, String time) {
+    public StandingEntry(String name, String score, String time) {
         this.name = name;
         this.score = score;
         this.time = time;

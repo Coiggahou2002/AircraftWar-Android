@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.Config;
 import com.example.myapplication.R;
+import com.example.myapplication.network.GameHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,12 +26,16 @@ public class StandingActivity extends AppCompatActivity {
     TextView difficultyText;
     ListView standingList;
 
+    GameHandler networkHandler;
+
     StandingListAdapter listAdapter;
     List<StandingEntry> standingData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        networkHandler = (GameHandler) getIntent().getSerializableExtra(Config.NETWORK_HANDLER);
 
         setViews();
         setDifficultyText();
@@ -57,8 +62,15 @@ public class StandingActivity extends AppCompatActivity {
                     "\nYour Score: "
                     + getIntent().getIntExtra(Config.SCORE, 0)
                     + "\nOpponent Score: "
-                    + getIntent().getIntExtra(Config.OPPONENT_SCORE, 0)
             );
+
+            int opponentScore = getIntent().getIntExtra(Config.OPPONENT_SCORE, 0);
+            if(opponentScore == -1) {
+                difficultyText.append("N/A");
+            }
+            else {
+                difficultyText.append(Integer.toString(opponentScore));
+            }
         }
         else {
             switch (getIntent().getIntExtra(Config.DIFFICULTY, 0)) {
@@ -84,9 +96,11 @@ public class StandingActivity extends AppCompatActivity {
     }
 
     private void prepareData() {
-        standingData = new ArrayList<>();
-        standingData.add(new StandingEntry("TestName", "123", "TestTime"));
-        standingData.add(new StandingEntry("TestNameNNNNN", "234", "TestTimeTTTTT"));
+        standingData = networkHandler.getStandingList();
+        if (standingData == null) {
+            // TODO: 此处回头加个GUI文本提示
+            standingData = new ArrayList<>();
+        }
     }
 
     private void createListeners() {
@@ -97,5 +111,9 @@ public class StandingActivity extends AppCompatActivity {
             finish();
         });
         quitButton.setOnClickListener(v -> finish());
+    }
+
+    protected void deleteEntry(StandingEntry entry) {
+        networkHandler.deleteStandingEntry(entry);
     }
 }

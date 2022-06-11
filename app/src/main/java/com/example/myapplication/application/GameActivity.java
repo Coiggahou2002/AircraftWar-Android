@@ -13,11 +13,17 @@ import android.view.MotionEvent;
 
 import com.example.myapplication.Config;
 import com.example.myapplication.game.multimedia.MusicService;
+import com.example.myapplication.network.GameHandler;
 
 public class GameActivity extends AppCompatActivity {
 
     private Intent currentIntent;
     private GameView gameView;
+
+    int difficulty;
+    int online;
+    String username;
+    GameHandler networkHandler;
 
     private boolean musicEnabled;
     public MusicService.MusicBinder myMusicBinder;
@@ -32,6 +38,11 @@ public class GameActivity extends AppCompatActivity {
         currentIntent = getIntent();
         setViews();
 
+        difficulty = currentIntent.getIntExtra(Config.DIFFICULTY, 0);
+        online = currentIntent.getIntExtra(Config.ONLINE, 0);
+        username = getIntent().getStringExtra(Config.USERNAME);
+        networkHandler = (GameHandler) currentIntent.getSerializableExtra(Config.NETWORK_HANDLER);
+
         musicEnabled = currentIntent.getBooleanExtra(Config.MUSIC_ENABLE, true);
         myMusicConnect = new MusicConnect();
         bindService(new Intent(this, MusicService.class),
@@ -40,9 +51,10 @@ public class GameActivity extends AppCompatActivity {
         );
 
         standingIntent = new Intent(GameActivity.this, StandingActivity.class);
-        standingIntent.putExtra(Config.DIFFICULTY, currentIntent.getIntExtra(Config.DIFFICULTY, 0));
-        standingIntent.putExtra(Config.ONLINE, currentIntent.getIntExtra(Config.ONLINE, 0));
-        standingIntent.putExtra(Config.USERNAME, getIntent().getStringExtra(Config.USERNAME));
+        standingIntent.putExtra(Config.DIFFICULTY, difficulty);
+        standingIntent.putExtra(Config.ONLINE, online);
+        standingIntent.putExtra(Config.USERNAME, username);
+        standingIntent.putExtra(Config.NETWORK_HANDLER, networkHandler);
     }
 
     private void setViews() {
@@ -65,6 +77,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     protected void onGameStop(int score) {
+        if (online == 1) {
+            // TODO: 此处回头加个GUI文本提示
+            standingIntent.putExtra(Config.OPPONENT_SCORE,
+                    networkHandler.onOnlineGameOver(username, score)
+            );
+        }
+        else {
+            networkHandler.onNormalGameOver(username, score, difficulty);
+        }
         standingIntent.putExtra(Config.SCORE, score);
         startActivity(standingIntent);
         finish();
