@@ -16,7 +16,7 @@ import com.example.myapplication.R;
 public class StartActivity extends AppCompatActivity {
 
     Intent gameIntent;
-    Button easyButton, normalButton, hardButton;
+    Button easyButton, normalButton, hardButton, onlineButton;
     CheckBox musicCheckBox;
 
     @Override
@@ -35,6 +35,7 @@ public class StartActivity extends AppCompatActivity {
         easyButton = findViewById(R.id.easy_button);
         normalButton = findViewById(R.id.normal_button);
         hardButton = findViewById(R.id.hard_button);
+        onlineButton = findViewById(R.id.online_button);
         musicCheckBox = findViewById(R.id.music_check);
     }
 
@@ -57,7 +58,12 @@ public class StartActivity extends AppCompatActivity {
             onQuit();
         });
 
-
+        onlineButton.setOnClickListener(view -> {
+            Log.i(Config.START_ACTIVITY_INFO_TAG, "Online Mode Selected");
+            gameIntent.putExtra(Config.DIFFICULTY, 1);
+            gameIntent.putExtra(Config.ONLINE, 1);
+            onQuit();
+        });
     }
 
     private void onQuit() {

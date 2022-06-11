@@ -38,6 +38,7 @@ public class GameActivity extends AppCompatActivity {
 
         standingIntent = new Intent(GameActivity.this, StandingActivity.class);
         standingIntent.putExtra(Config.DIFFICULTY, currentIntent.getIntExtra(Config.DIFFICULTY, 0));
+        standingIntent.putExtra(Config.ONLINE, currentIntent.getIntExtra(Config.ONLINE, 0));
         standingIntent.putExtra(Config.USERNAME, getIntent().getStringExtra(Config.USERNAME));
     }
 
@@ -60,7 +61,8 @@ public class GameActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {}
     }
 
-    protected void onGameStop() {
+    protected void onGameStop(int score) {
+        standingIntent.putExtra(Config.SCORE, score);
         startActivity(standingIntent);
         finish();
     }

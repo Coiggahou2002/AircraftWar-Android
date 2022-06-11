@@ -12,9 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.Config;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StandingActivity extends AppCompatActivity {
@@ -26,19 +28,15 @@ public class StandingActivity extends AppCompatActivity {
     StandingListAdapter listAdapter;
     List<StandingEntry> standingData;
 
-    Intent restartIntent;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        restartIntent = new Intent(StandingActivity.this, StartActivity.class);
-
         setViews();
+        setDifficultyText();
+        setListContent();
 
         createListeners();
-
-        setListContent();
     }
 
     private void setViews() {
@@ -52,12 +50,30 @@ public class StandingActivity extends AppCompatActivity {
         standingList.setDividerHeight(4);
     }
 
-    private void createListeners() {
-        restartButton.setOnClickListener(v -> {
-            startActivity(restartIntent);
-            finish();
-        });
-        quitButton.setOnClickListener(v -> finish());
+    private void setDifficultyText() {
+        if (getIntent().getIntExtra(Config.ONLINE, 0) == 1) {
+            difficultyText.setText(R.string.online_mode);
+            difficultyText.append(
+                    "\nYour Score: "
+                    + getIntent().getIntExtra(Config.SCORE, 0)
+                    + "\nOpponent Score: "
+                    + getIntent().getIntExtra(Config.OPPONENT_SCORE, 0)
+            );
+        }
+        else {
+            switch (getIntent().getIntExtra(Config.DIFFICULTY, 0)) {
+                case 0:
+                    difficultyText.setText(R.string.easy_mode);
+                    break;
+                case 1:
+                    difficultyText.setText(R.string.normal_mode);
+                    break;
+                default:
+                    difficultyText.setText(R.string.hard_mode);
+                    break;
+            }
+            difficultyText.append("\nYour Score: " + getIntent().getIntExtra(Config.SCORE, 0));
+        }
     }
 
     private void setListContent() {
@@ -71,5 +87,15 @@ public class StandingActivity extends AppCompatActivity {
         standingData = new ArrayList<>();
         standingData.add(new StandingEntry("TestName", "123", "TestTime"));
         standingData.add(new StandingEntry("TestNameNNNNN", "234", "TestTimeTTTTT"));
+    }
+
+    private void createListeners() {
+        restartButton.setOnClickListener(v -> {
+            startActivity(new Intent(StandingActivity.this, StartActivity.class)
+                    .putExtra(Config.USERNAME, getIntent().getStringExtra(Config.USERNAME))
+            );
+            finish();
+        });
+        quitButton.setOnClickListener(v -> finish());
     }
 }

@@ -5,6 +5,10 @@
     <!-- Strings for process modification-->
     <string name="empty_username">Please input username</string>
     <string name="empty_password">Please input password</string>
+    <string name="easy_mode">Easy Mode</string>
+    <string name="normal_mode">Normal Mode</string>
+    <string name="hard_mode">Hard Mode</string>
+    <string name="online_mode">Online Mode</string>
 
     <!-- Strings used for layout design-->
     <string name="default_login_title">Please Login</string>
