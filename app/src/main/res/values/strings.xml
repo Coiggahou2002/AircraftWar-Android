@@ -2,10 +2,21 @@
     <string name="app_name">My Application</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Strings for process modification-->
+    <string name="empty_username">Please input username</string>
+    <string name="empty_password">Please input password</string>
+
     <!-- Strings used for layout design-->
+    <string name="default_login_title">Please Login</string>
+    <string name="user_name_text">Username</string>
+    <string name="password_text">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+
     <string name="easy_mode_button">Easy</string>
     <string name="normal_mode_button">Normal</string>
     <string name="hard_mode_button">Hard</string>
+    <string name="online_mode_button">Online</string>
     <string name="music_check_box">Music</string>
 
     <string name="difficulty_text">DIFFICULTY</string>

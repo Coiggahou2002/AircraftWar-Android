@@ -37,6 +37,7 @@ public class StandingActivity extends AppCompatActivity {
         setViews();
 
         createListeners();
+
         setListContent();
     }
 
@@ -56,9 +57,7 @@ public class StandingActivity extends AppCompatActivity {
             startActivity(restartIntent);
             finish();
         });
-        quitButton.setOnClickListener(v -> {
-            finish();
-        });
+        quitButton.setOnClickListener(v -> finish());
     }
 
     private void setListContent() {

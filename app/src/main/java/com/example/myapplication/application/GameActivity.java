@@ -37,6 +37,8 @@ public class GameActivity extends AppCompatActivity {
         bindService(musicIntent, myMusicConnect, Context.BIND_AUTO_CREATE);
 
         standingIntent = new Intent(GameActivity.this, StandingActivity.class);
+        standingIntent.putExtra(Config.DIFFICULTY, currentIntent.getIntExtra(Config.DIFFICULTY, 0));
+        standingIntent.putExtra(Config.USERNAME, getIntent().getStringExtra(Config.USERNAME));
     }
 
     private void setViews() {

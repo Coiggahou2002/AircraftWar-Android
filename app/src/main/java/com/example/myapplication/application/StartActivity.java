@@ -24,6 +24,7 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         gameIntent = new Intent(StartActivity.this, GameActivity.class);
+        gameIntent.putExtra(Config.USERNAME, getIntent().getStringExtra(Config.USERNAME));
 
         setViews();
         createListeners();
@@ -41,23 +42,25 @@ public class StartActivity extends AppCompatActivity {
         easyButton.setOnClickListener(view -> {
             Log.i(Config.START_ACTIVITY_INFO_TAG, "Easy Mode Selected");
             gameIntent.putExtra(Config.DIFFICULTY, 0);
-            playGame();
+            onQuit();
         });
 
         normalButton.setOnClickListener(view -> {
             Log.i(Config.START_ACTIVITY_INFO_TAG, "Normal Mode Selected");
             gameIntent.putExtra(Config.DIFFICULTY, 1);
-            playGame();
+            onQuit();
         });
 
         hardButton.setOnClickListener(view -> {
             Log.i(Config.START_ACTIVITY_INFO_TAG, "Hard Mode Selected");
             gameIntent.putExtra(Config.DIFFICULTY, 2);
-            playGame();
+            onQuit();
         });
+
+
     }
 
-    private void playGame() {
+    private void onQuit() {
         // Get Music State
         gameIntent.putExtra(Config.MUSIC_ENABLE, musicCheckBox.isChecked());
         Log.i(Config.START_ACTIVITY_INFO_TAG, "Music: " + musicCheckBox.isChecked());

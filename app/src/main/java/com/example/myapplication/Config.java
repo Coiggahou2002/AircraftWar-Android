@@ -5,8 +5,10 @@ public class Config {
     // Strings for Intent name
     public final static String DIFFICULTY = "difficulty";
     public final static String MUSIC_ENABLE = "music_enable";
+    public final static String USERNAME = "user_name";
 
     // Strings for Log tag
+    public final static String LOGIN_ACTIVITY_INFO_TAG = "LoginActivityInfo";
     public final static String START_ACTIVITY_INFO_TAG = "StartActivityInfo";
     public final static String GAME_ACTIVITY_INFO_TAG = "GameActivityInfo";
     public final static String GAME_VERBOSE_TAG = "GameVerbose";
