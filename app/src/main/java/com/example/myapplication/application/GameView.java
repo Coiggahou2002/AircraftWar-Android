@@ -87,7 +87,7 @@ public class GameView extends SurfaceView
     public void onGameStop(int score) {
         Log.i(Config.GAME_ACTIVITY_INFO_TAG, "" + score);
         executorService.shutdown();
-        myActivity.finish();
+        myActivity.onGameStop();
     }
 
     @Override

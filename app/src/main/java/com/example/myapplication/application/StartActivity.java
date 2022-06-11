@@ -64,6 +64,7 @@ public class StartActivity extends AppCompatActivity {
 
         // Goto Game
         startActivity(gameIntent);
+        finish();
     }
 
     @Override

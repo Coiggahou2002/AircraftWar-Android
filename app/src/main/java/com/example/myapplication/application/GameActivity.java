@@ -23,6 +23,8 @@ public class GameActivity extends AppCompatActivity {
     private MusicConnect myMusicConnect;
     private Intent musicIntent;
 
+    private Intent standingIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class GameActivity extends AppCompatActivity {
         myMusicConnect = new MusicConnect();
         musicIntent = new Intent(this, MusicService.class);
         bindService(musicIntent, myMusicConnect, Context.BIND_AUTO_CREATE);
+
+        standingIntent = new Intent(GameActivity.this, StandingActivity.class);
     }
 
     private void setViews() {
@@ -52,6 +56,11 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {}
+    }
+
+    protected void onGameStop() {
+        startActivity(standingIntent);
+        finish();
     }
 
     @Override
