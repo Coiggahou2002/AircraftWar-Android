@@ -19,9 +19,9 @@ public class GameActivity extends AppCompatActivity {
     private Intent currentIntent;
     private GameView gameView;
 
+    private boolean musicEnabled;
     public MusicService.MusicBinder myMusicBinder;
     private MusicConnect myMusicConnect;
-    private Intent musicIntent;
 
     private Intent standingIntent;
 
@@ -32,9 +32,12 @@ public class GameActivity extends AppCompatActivity {
         currentIntent = getIntent();
         setViews();
 
+        musicEnabled = currentIntent.getBooleanExtra(Config.MUSIC_ENABLE, true);
         myMusicConnect = new MusicConnect();
-        musicIntent = new Intent(this, MusicService.class);
-        bindService(musicIntent, myMusicConnect, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(this, MusicService.class),
+                myMusicConnect,
+                Context.BIND_AUTO_CREATE
+        );
 
         standingIntent = new Intent(GameActivity.this, StandingActivity.class);
         standingIntent.putExtra(Config.DIFFICULTY, currentIntent.getIntExtra(Config.DIFFICULTY, 0));
@@ -45,7 +48,6 @@ public class GameActivity extends AppCompatActivity {
     private void setViews() {
         gameView = new GameView(this);
         gameView.difficulty = currentIntent.getIntExtra(Config.DIFFICULTY, 0);
-        gameView.musicEnable = currentIntent.getBooleanExtra(Config.MUSIC_ENABLE, false);
         Log.i(Config.GAME_ACTIVITY_INFO_TAG, "" + gameView.difficulty);
         setContentView(gameView);
     }
@@ -55,6 +57,7 @@ public class GameActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.i(Config.MUSIC_INFO_TAG, "Connect Music");
             myMusicBinder = (MusicService.MusicBinder) service;
+            myMusicBinder.setEnable(musicEnabled);
         }
 
         @Override

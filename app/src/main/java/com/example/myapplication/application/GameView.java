@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.Config;
 import com.example.myapplication.game.EasyGame;
@@ -31,7 +33,6 @@ public class GameView extends SurfaceView
 
     // game setting parameters
     public int difficulty = 0;
-    public boolean musicEnable = false;
 
     // game running parameters
     public float fingerX = 0, fingerY = 0;
@@ -65,6 +66,7 @@ public class GameView extends SurfaceView
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void run() {
         executorService.scheduleWithFixedDelay(
@@ -75,12 +77,18 @@ public class GameView extends SurfaceView
         );
     }
 
+    // Render Acceleration using GPU
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void gamePeriod() {
-        game.step();
-        synchronized (mySurfaceHolder) {
-            Canvas canvas = mySurfaceHolder.lockCanvas();
-            game.repaint(canvas);
-            mySurfaceHolder.unlockCanvasAndPost(canvas);
+        try {
+            game.step();
+            synchronized (mySurfaceHolder) {
+                Canvas canvas = mySurfaceHolder.lockHardwareCanvas();
+                game.repaint(canvas);
+                mySurfaceHolder.unlockCanvasAndPost(canvas);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

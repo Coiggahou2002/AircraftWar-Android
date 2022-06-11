@@ -30,12 +30,14 @@ public class MusicService extends Service {
     private MediaPlayer normalBgmPlayer;
     private MediaPlayer bossBgmPlayer;
 
+    private boolean enabled = true;
+
     public MusicService() {}
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        mSoundPool = new SoundPool(5, AudioManager.STREAM_SYSTEM, 5);
+
         Log.i(Config.MUSIC_INFO_TAG,"Create Music Service");
 
         mySoundPool = new SoundPool.Builder().setMaxStreams(5).build();
@@ -56,30 +58,45 @@ public class MusicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-
         return new MusicBinder();
     }
 
     public class MusicBinder extends Binder {
 
+        public void setEnable(boolean enabled) {
+            if (!enabled) {
+                normalBgmPlayer.pause();
+                bossBgmPlayer.pause();
+            }
+            MusicService.this.enabled = enabled;
+        }
+
         public void playBossBgm() {
-            normalBgmPlayer.pause();
-            bossBgmPlayer.start();
+            if (enabled) {
+                normalBgmPlayer.pause();
+                bossBgmPlayer.start();
+            }
         }
 
         public void playNormalBgm() {
-            bossBgmPlayer.pause();
-            normalBgmPlayer.start();
+            if (enabled) {
+                bossBgmPlayer.pause();
+                normalBgmPlayer.start();
+            }
         }
 
         public void stopAll() {
-            stopMusic();
+            if (enabled) {
+                stopMusic();
+            }
         }
 
         public void play(MusicName name) {
-            Integer id = soundID.get(name);
-            if(id != null) {
-                mySoundPool.play(id, 1, 1, 0, 0, 1);
+            if (enabled) {
+                Integer id = soundID.get(name);
+                if(id != null) {
+                    mySoundPool.play(id, 1, 1, 0, 0, 1);
+                }
             }
         }
     }
