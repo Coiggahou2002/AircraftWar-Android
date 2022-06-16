@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">飞机大战</string>
     <string name="action_settings">Settings</string>
 
     <!-- Strings for process modification-->
-    <string name="empty_username">Please input username</string>
-    <string name="empty_password">Please input password</string>
-    <string name="login_failed">Login Failed!</string>
-    <string name="register_failed">Register Failed!</string>
+    <string name="empty_username">请输入用户名</string>
+    <string name="empty_password">请输入密码</string>
+    <string name="login_failed">登录失败</string>
+    <string name="register_failed">注册失败</string>
 
 
 
@@ -17,16 +17,18 @@
 
     <!-- Strings used for layout design-->
     <string name="default_login_title">Please Login</string>
-    <string name="user_name_text">Username</string>
-    <string name="password_text">Password</string>
-    <string name="login_button">Login</string>
-    <string name="register_button">Register</string>
+    <string name="user_name_text">用户名</string>
+    <string name="password_text">密码</string>
+    <string name="login_button">登录</string>
+    <string name="register_button">注册</string>
+    <string name="info_button">个人信息</string>
 
-    <string name="easy_mode_button">Easy</string>
-    <string name="normal_mode_button">Normal</string>
-    <string name="hard_mode_button">Hard</string>
-    <string name="online_mode_button">Online</string>
-    <string name="music_check_box">Music</string>
+    <string name="easy_mode_button">简单模式</string>
+    <string name="normal_mode_button">普通模式</string>
+    <string name="hard_mode_button">困难模式</string>
+    <string name="online_mode_button">加入房间</string>
+    <string name="create_room_button">创建房间</string>
+    <string name="music_check_box">音效</string>
 
     <string name="difficulty_text">DIFFICULTY</string>
     <string name="delete_button">Delete</string>
