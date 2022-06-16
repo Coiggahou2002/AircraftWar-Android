@@ -53,7 +53,7 @@ public class HeroAircraft extends AbstractAircraft {
         setProperty(
                 ImageManager.screenWidth / 2,
                 ImageManager.screenHeight - ImageManager.HERO_IMAGE.getHeight() ,
-                0, 0, 500
+                0, 0, 200
         );
     }
 
