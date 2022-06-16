@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.Config;
+import com.example.myapplication.game.AbstractGame;
 import com.example.myapplication.game.EasyGame;
 import com.example.myapplication.game.Game;
 import com.example.myapplication.game.HardGame;
@@ -100,11 +101,13 @@ public class GameView extends SurfaceView
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-        getGame();
+        AbstractGame gameInsRef = getGame();
+        GlobalVariableManager.gameInsRef = gameInsRef;
         new Thread(this).start();
     }
 
-    private void getGame() {
+    private AbstractGame getGame() {
+        AbstractGame gameRef = null;
         switch (difficulty) {
             case 0:
                 game = new EasyGame(this);
@@ -115,7 +118,11 @@ public class GameView extends SurfaceView
             case 2:
                 game = new HardGame(this);
                 break;
+            default:
+                break;
         }
+        gameRef = (AbstractGame) game;
+        return gameRef;
     }
 
     @Override

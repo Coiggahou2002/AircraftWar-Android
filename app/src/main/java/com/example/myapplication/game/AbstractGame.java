@@ -50,7 +50,12 @@ public abstract class AbstractGame implements Game {
     /**
      * 游戏基本参数
      */
-    private int score = 0;
+    private int score = 99;
+
+    public int getScore() {
+        return score;
+    }
+
     private int time = 0;
     protected int enemyMaxNumber = 5;
     protected int enemyScore = 10;

@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.example.myapplication.application.GlobalVariableManager;
+
 public class PaintHandler {
     private final Paint myPaint;
 
@@ -42,9 +44,13 @@ public class PaintHandler {
     }
 
     public void drawGameTexts(Canvas canvas, int score, int hp) {
-        int x = 20, y1 = 120, y2 = 220;
-        canvas.drawText("SCORE: " + score, x, y1, myPaint);
-        canvas.drawText("LIFE: " + hp, x, y2, myPaint);
+        int x = 20, y1 = 120, y2 = 220, y3=320;
+        canvas.drawText("分数: " + score, x, y1, myPaint);
+        canvas.drawText("血量: " + hp, x, y2, myPaint);
+        if (GlobalVariableManager.isOnlineMode) {
+            canvas.drawText("对手分数: " + GlobalVariableManager.opponentScore, x, y3, myPaint);
+        }
     }
+
 
 }
